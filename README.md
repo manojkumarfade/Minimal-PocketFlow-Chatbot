@@ -36,3 +36,120 @@ Instead of writing one large script, the chatbot is split into **Nodes**.
 
 Each node has **one responsibility**:
 
+
+This makes the logic:
+- Easier to understand
+- Easier to debug
+- Easier to extend (RAG, tools, agents)
+
+---
+
+## 📁 Project Components Explained
+
+### 1️⃣ Imports & Environment Setup
+
+Used to:
+- Make HTTP requests (`requests`)
+- Handle flow execution (`copy`)
+- Load secrets securely from Colab (`userdata`)
+
+Nothing executes here — this cell only prepares the environment.
+
+---
+
+### 2️⃣ TypeGPT API Configuration
+
+- Reads the API key from **Colab Secrets**
+- Defines a helper function to call the chat completion endpoint
+- Sends conversation history in OpenAI-style format
+
+This keeps all LLM logic isolated in one place.
+
+---
+
+### 3️⃣ Minimal PocketFlow Engine
+
+Defines:
+- `Node`: a single unit of work
+- `Flow`: a controller that runs nodes in sequence
+
+Each node decides what the **next node** will be.
+Returning `None` ends the flow.
+
+This replaces complex state machines with a simple loop.
+
+---
+
+### 4️⃣ InputNode (User Input)
+
+Responsibilities:
+- Reads user input from the terminal
+- Detects `exit` / `quit` commands
+- Stores user input in shared memory
+
+This node is the **entry point** of every chat turn.
+
+---
+
+### 5️⃣ MemoryNode (Conversation Storage)
+
+Responsibilities:
+- Maintains full chat history
+- Stores messages in `{role, content}` format
+- Ensures the LLM receives conversation context
+
+This is what makes the chatbot *context-aware*.
+
+---
+
+### 6️⃣ APINode (LLM Interaction)
+
+Responsibilities:
+- Sends conversation history to TypeGPT
+- Receives assistant response
+- Handles API errors safely
+- Stores assistant reply back into memory
+
+This node is where intelligence happens.
+
+---
+
+### 7️⃣ DisplayNode (Output)
+
+Responsibilities:
+- Prints the assistant response to the user
+- Keeps the UI clean and readable
+- Sends control back to the input node
+
+After this node, the loop continues.
+
+---
+
+### 8️⃣ Flow Wiring
+
+Nodes are connected like this:
+
+
+
+
+This creates a continuous conversational loop.
+
+---
+
+### 9️⃣ Running the Chatbot
+
+- Initializes shared memory
+- Inserts a system prompt
+- Starts the flow execution
+
+The chatbot remains active until the user exits.
+
+---
+
+## 🔐 API Key Setup (Important)
+
+This project uses **Google Colab Secrets**.
+
+Steps:
+1. Open **Colab → Settings → Secrets**
+2. Add a key named:
