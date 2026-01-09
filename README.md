@@ -153,3 +153,54 @@ This project uses **Google Colab Secrets**.
 Steps:
 1. Open **Colab → Settings → Secrets**
 2. Add a key named:
+3. Paste your TypeGPT API key as the value
+
+⚠️ Never hardcode API keys in notebooks or GitHub repos.
+
+---
+
+## ▶️ How to Run
+
+1. Open the notebook in Google Colab
+2. Add your API key to Colab Secrets
+3. Run all cells
+4. Start chatting in the terminal
+5. Type `exit` to stop
+
+---
+
+## 🧠 Why This Design Matters
+
+- Modular nodes instead of messy scripts
+- Clear separation of concerns
+- Easy to extend into:
+- RAG pipelines
+- Tool calling
+- Agents
+- Streamlit apps
+- Multi-model routing
+
+This structure scales from **toy chatbot → production agent**.
+
+---
+
+## 🔮 Possible Extensions
+
+- Add document-based Q&A (RAG)
+- Add chat memory trimming
+- Add tool calling
+- Convert to Streamlit UI
+- Add multi-agent routing
+- Add logging and analytics
+
+---
+
+## 📌 Summary
+
+This project shows how to:
+- Build a chatbot cleanly
+- Think in flows, not scripts
+- Keep LLM systems understandable
+- Write code others can actually read
+
+Simple. Powerful. Extendable.
